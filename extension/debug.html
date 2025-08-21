@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Extension</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #f5f5f5; 
+        }
+        .debug-section { 
+            background: white; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+            border: 1px solid #ddd; 
+        }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .warning { color: #ffc107; }
+        button { 
+            padding: 8px 16px; 
+            margin: 5px; 
+            border: none; 
+            border-radius: 3px; 
+            cursor: pointer; 
+        }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Video Downloader Extension Debug</h1>
+    
+    <div class="debug-section">
+        <h3>📋 Instructions</h3>
+        <ol>
+            <li>Open Chrome DevTools (F12)</li>
+            <li>Go to YouTube and play a video</li>
+            <li>Check the Console tab for extension logs</li>
+            <li>Look for messages starting with 🚀, 📹, ✅, or ❌</li>
+            <li>Click the buttons below to test functionality</li>
+        </ol>
+    </div>
+    
+    <div class="debug-section">
+        <h3>🧪 Tests</h3>
+        <button class="btn-primary" onclick="testExtensionAPI()">Test Extension API</button>
+        <button class="btn-primary" onclick="testStorageAPI()">Test Storage</button>
+        <button class="btn-secondary" onclick="clearStorage()">Clear Storage</button>
+        <button class="btn-secondary" onclick="showLogs()">Show Recent Logs</button>
+    </div>
+    
+    <div class="debug-section">
+        <h3>📊 Status</h3>
+        <div id="status">Loading...</div>
+    </div>
+    
+    <div class="debug-section">
+        <h3>📝 Logs</h3>
+        <div id="logs" style="background: #f8f9fa; padding: 10px; border-radius: 3px; max-height: 300px; overflow-y: auto;"></div>
+    </div>
+
+    <script>
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logsDiv = document.getElementById('logs');
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : type === 'warning' ? 'warning' : '';
+            logsDiv.innerHTML += `<div class="${className}">[${timestamp}] ${message}</div>`;
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+            console.log(`[Debug] ${message}`);
+        }
+
+        function testExtensionAPI() {
+            log('Testing extension API...', 'info');
+            if (typeof chrome !== 'undefined' && chrome.runtime) {
+                log('✅ Chrome extension API available', 'success');
+                if (chrome.downloads) {
+                    log('✅ Downloads API available', 'success');
+                } else {
+                    log('❌ Downloads API not available', 'error');
+                }
+                if (chrome.storage) {
+                    log('✅ Storage API available', 'success');
+                } else {
+                    log('❌ Storage API not available', 'error');
+                }
+            } else {
+                log('❌ Chrome extension API not available', 'error');
+            }
+        }
+
+        function testStorageAPI() {
+            log('Testing storage...', 'info');
+            if (chrome.storage && chrome.storage.local) {
+                chrome.storage.local.get(['currentVideoInfo', 'capturedStreams'], (result) => {
+                    log('Storage contents:', 'info');
+                    log(`Video Info: ${result.currentVideoInfo ? 'YES' : 'NO'}`, result.currentVideoInfo ? 'success' : 'warning');
+                    if (result.currentVideoInfo) {
+                        log(`Title: ${result.currentVideoInfo.title}`, 'info');
+                    }
+                    log(`Captured Streams: ${result.capturedStreams ? 'YES' : 'NO'}`, result.capturedStreams ? 'success' : 'warning');
+                    if (result.capturedStreams) {
+                        const videoStreams = result.capturedStreams.video ? Object.keys(result.capturedStreams.video).length : 0;
+                        const audioStreams = result.capturedStreams.audio ? 1 : 0;
+                        log(`Video streams: ${videoStreams}, Audio streams: ${audioStreams}`, 'info');
+                    }
+                });
+            } else {
+                log('❌ Storage API not available', 'error');
+            }
+        }
+
+        function clearStorage() {
+            log('Clearing storage...', 'info');
+            if (chrome.storage && chrome.storage.local) {
+                chrome.storage.local.clear(() => {
+                    log('✅ Storage cleared', 'success');
+                });
+            } else {
+                log('❌ Storage API not available', 'error');
+            }
+        }
+
+        function showLogs() {
+            log('=== Recent Activity ===', 'info');
+            testStorageAPI();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            log('🚀 Debug page loaded', 'info');
+            testExtensionAPI();
+            
+            // Update status
+            const statusDiv = document.getElementById('status');
+            if (typeof chrome !== 'undefined' && chrome.runtime) {
+                statusDiv.innerHTML = '<span class="success">✅ Extension API Available</span>';
+            } else {
+                statusDiv.innerHTML = '<span class="error">❌ Extension API Not Available</span>';
+            }
+        });
+    </script>
+</body>
+</html>

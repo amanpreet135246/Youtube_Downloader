@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Video Downloader - ytdl approach",
+  "version": "2.0",
+  "description": "Download YouTube videos using ytdl-core methodology",
+  
+  "permissions": [
+    "downloads",
+    "storage",
+    "scripting"
+  ],
+  
+  "host_permissions": [
+    "*://www.youtube.com/*",
+    "*://youtube.com/*",
+    "*://googlevideo.com/*",
+    "*://*.googlevideo.com/*"
+  ],
+  
+  "background": {
+    "service_worker": "background-ytdl.js"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["*://www.youtube.com/*", "*://youtube.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "YouTube Downloader",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

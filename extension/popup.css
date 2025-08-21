@@ -1,0 +1,158 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 350px;
+  background-color: #f5f5f5;
+}
+
+.container {
+  padding: 16px;
+}
+
+h1 {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 0;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.hidden {
+  display: none;
+}
+
+.centered {
+  text-align: center;
+  padding: 20px 0;
+  color: #666;
+}
+
+#video-info {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.video-thumbnail-container {
+  width: 100%;
+  text-align: center;
+}
+
+#video-thumbnail {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.video-details {
+  flex: 1;
+}
+
+#video-title {
+  font-size: 16px;
+  margin: 0 0 8px 0;
+}
+
+#video-author {
+  font-size: 14px;
+  margin: 0;
+  color: #666;
+}
+
+.option-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.download-btn {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#download-video {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#download-video:hover {
+  background-color: #45a049;
+}
+
+#download-audio {
+  background-color: #2196F3;
+  color: white;
+}
+
+#download-audio:hover {
+  background-color: #0b7dda;
+}
+
+.quality-selector {
+  margin-bottom: 16px;
+}
+
+select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  margin-top: 6px;
+}
+
+.progress-bar-container {
+  height: 24px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+
+#progress-bar {
+  height: 100%;
+  background-color: #4CAF50;
+  width: 0;
+  transition: width 0.3s;
+}
+
+#progress-text {
+  text-align: center;
+  margin: 0;
+  font-weight: bold;
+}
+
+#status-message {
+  padding: 8px;
+  margin-top: 16px;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.success {
+  background-color: #dff0d8;
+  color: #3c763d;
+}
+
+.error {
+  background-color: #f2dede;
+  color: #a94442;
+}
+
+.warning {
+  background-color: #fcf8e3;
+  color: #8a6d3b;
+}
+
+h3 {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
