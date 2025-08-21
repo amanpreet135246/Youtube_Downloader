@@ -1,94 +1,79 @@
-# Video Downloader Chrome Extension
+# YouTube Downloader GUI
 
-This Chrome extension allows you to download videos and audio from YouTube using real stream capture technology. It's a standalone solution that works directly in your browser without requiring a backend server.
+A standalone desktop application for downloading YouTube videos and audio with a clean, user-friendly interface.
 
 ## Features
 
-- **Real Video Downloads**: Captures actual video streams from YouTube
-- **Audio Extraction**: Downloads audio streams directly
-- **Multiple Quality Options**: Choose from available video qualities
-- **Stream Detection**: Automatically detects and captures media streams
-- **Standalone Operation**: No external servers or APIs required
+- **Simple Interface**: Clean GUI with easy-to-use controls
+- **Multiple Download Options**:
+  - Single video download (best quality with automatic merging)
+  - Single audio download (MP3 format)
+  - Playlist video downloads
+  - Playlist audio downloads (MP3 format)
+- **Configurable Settings**: Choose custom download directories
+- **Real-time Progress**: See download progress and status updates
+- **Error Handling**: Comprehensive error reporting and logging
+- **Cross-platform**: Works on Windows, macOS, and Linux
 
-## How It Works
+## Installation
 
-This extension uses a **Stream Capture Approach** similar to `ytdl-core` but adapted for browser extensions:
+1. Clone or download this repository
+2. Install dependencies:
+   ```bash
+   uv sync
+   ```
 
-1. **Stream Interception**: Uses Chrome's `webRequest` API to monitor YouTube's media requests
-2. **Stream Capture**: Identifies and captures video and audio stream URLs
-3. **Real Downloads**: Uses Chrome's download API to save actual media files
-4. **Quality Detection**: Automatically detects available video qualities
+## Usage
 
-## Installation Instructions
+Run the application:
+```bash
+uv run python main.py
+```
 
-1. Download or clone this repository to your computer
-2. Open Chrome/Brave and go to `chrome://extensions/` or `brave://extensions/`
-3. Enable "Developer mode" using the toggle in the top-right corner
-4. Click "Load unpacked" and select the extension folder
-5. The Video Downloader extension should now appear in your extensions
+### How to Use
 
-## How to Use
+1. **Paste URL**: Enter a YouTube video or playlist URL
+2. **Select Option**: Choose your preferred download format
+3. **Configure Path**: Use File → Settings to set your download directory
+4. **Download**: Click the Download button
 
-1. **Go to YouTube**: Navigate to any YouTube video page
-2. **Play the Video**: Start playing the video to allow stream capture
-3. **Open Extension**: Click the Video Downloader extension icon
-4. **Wait for Streams**: The extension will show available download options once streams are detected
-5. **Choose Quality**: Select your preferred video quality from the dropdown
-6. **Download**: Click either "Download Video" or "Download Audio"
-7. **Check Downloads**: Files will be saved to your browser's default Downloads folder
+### Download Options
 
-## Important Notes
+- **v - Download video**: Downloads the best quality video with audio merged
+- **m - Download audio only MP3**: Extracts audio and converts to MP3
+- **vp - Download playlist videos**: Downloads all videos in a playlist
+- **mp - Download playlist audios**: Downloads all audios from a playlist as MP3
 
-### Stream Capture Technology
+### Settings
 
-This extension captures the actual media streams that YouTube uses for playback. This means:
+Access settings via File → Settings to configure:
+- **Output Directory**: Choose where files are saved
+- Videos are saved to: `{output_directory}/Videos/`
+- Audio files are saved to: `{output_directory}/Music/`
 
-- **You must play the video first** for streams to be captured
-- Available qualities depend on what YouTube loads for your connection
-- Both video and audio streams are captured separately
-- Downloads are the actual media files (MP4 for video, audio streams for audio)
+## Technical Details
 
-### Limitations
+- Built with **PySide6** for the GUI framework
+- Uses **yt-dlp** for downloading YouTube content
+- Implements threaded downloads to keep the UI responsive
+- Uses optimal yt-dlp settings (`bestvideo+bestaudio/best`) for automatic merging
+- Persistent settings storage using QSettings
 
-- Requires the video to be played for stream capture to work
-- Available qualities depend on YouTube's adaptive streaming
-- Some videos may have limited quality options
-- Playlist downloads are not currently supported
+## Requirements
 
-## File Locations
+- Python 3.8+
+- PySide6 (for GUI)
+- yt-dlp (for downloading)
+- FFmpeg (for audio conversion and video merging)
 
-Downloaded files are saved to your browser's default download location:
-- **Windows**: `C:\Users\[YourUsername]\Downloads`
-- **macOS**: `/Users/[YourUsername]/Downloads`  
-- **Linux**: `/home/[YourUsername]/Downloads`
+## Building Standalone Executable
 
-Files are saved with sanitized names like:
-- Videos: `Video_Title_720p.mp4`
-- Audio: `Video_Title.mp3`
-
-## Technical Implementation
-
-This extension implements real downloading by:
-
-1. **Monitoring Network Requests**: Using `chrome.webRequest.onBeforeRequest`
-2. **Stream URL Extraction**: Identifying `googlevideo.com` URLs with video/audio MIME types
-3. **Quality Mapping**: Using YouTube's itag system to determine quality levels
-4. **Direct Downloads**: Using `chrome.downloads.download()` with captured stream URLs
-
-## Development
-
-To modify or enhance this extension:
-
-1. Edit the files as needed
-2. Go to `chrome://extensions/` and click the refresh icon on the extension
-3. Test your changes on YouTube
-
-## Troubleshooting
-
-- **"Play video first" message**: You need to start playing the video for streams to be captured
-- **No download options**: Make sure the video is actually playing and try refreshing the extension
-- **Download fails**: Check that the video isn't region-restricted or private
+To create a standalone executable:
+```bash
+uv add --dev pyinstaller
+uv run pyinstaller --onefile --windowed main.py
+```
 
 ## License
 
-This project is for educational purposes only. Always respect YouTube's terms of service and copyright laws when using this extension.
+This project is open source and available under the MIT License.
